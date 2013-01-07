@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Gloubster</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <link href="../assets/main.css" rel="stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="../assets/ico/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Gloubster</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class=""><a href="../index.html">Home</a></li>
+              <li class="active"><a href="index.html">Documentation</a></li>
+              <li class=""><a href="../protocol.html">Protocol</a></li>
+              <li class=""><a href="../clients.html">Clients</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Installation</li>
+              <li class="active"><a href="install-server.html">Server</a></li>
+              <li><a href="install-worker.html">Worker</a></li>
+              <li class="nav-header">Monitoring</li>
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+            <h2>Server</h2>
+
+            <section>
+                <h3>Requirements</h3>
+                <p>
+                    Gloubster server requires the followings :
+                </p>
+                <ul>
+                    <li>
+                        <a href="http://www.rabbitmq.com/" target="_blank">RabbitMQ</a> (>= 2.8) with <a href="http://www.rabbitmq.com/management.html" target="_blank">Management plugin</a> and <a href="https://www.rabbitmq.com/stomp.html" target="_blank">STOMP gateway</a>
+                    </li>
+                    <li>
+                        <a href="https://php.net/" target="_blank">PHP</a> (>= 5.3.3)
+                    </li>
+                    <li>
+                        <a href="https://getcomposer.org/" target="_blank">composer</a>
+                    </li>
+                    <li>
+                        <a href="https://npmjs.org/" target="_blank">npm</a>
+                    </li>
+                    <li>
+                        <a href="http://pecl.php.net/package/libevent" target="_blank">PHP-libevent</a> (>=0.0.5 recommended)
+                    </li>
+                    <li>
+                        <a href="http://redis.io/" target="_blank">Redis Server (>= 2.2)</a> and <a href="https://github.com/nrk/phpiredis" target="_blank">PHP-hiredis</a>
+                    </li>
+                    <li>
+                        <a href="http://www.zeromq.org/" target="_blank">ZeroMQ (>= 2.2)</a> and <a href="https://github.com/mkoppanen/php-zmq" target="_blank">PHP-zmq (>= 1.0)</a> (option)
+                    </li>
+                </ul>
+                <p>
+                    Please note that the following install git will use scripts that require :
+                </p>
+                <ul>
+                    <li>
+                        <a href="https://php.net/" target="_blank">git</a>
+                    </li>
+                    <li>
+                        <a href="https://php.net/" target="_blank">curl</a>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Installation</h3>
+                <p>
+                    Server should be installed with composer :
+                </p>
+                <code>
+                    romain@computer : ~ $ composer create-project gloubster/server -s dev -n --prefer-dist gloubster-server
+                </code>
+                <p>
+                    This will fetch gloubster server and its dependencies then install it in the <i>gloubster-server</i> directory.
+                </p>
+            </section>
+
+            <section>
+                <h3>Configuration</h3>
+                <p>
+                    Gloubster server configuration has 5 sections, you will find
+                    a configuration sample in <code>config/config.sample.json</code>
+                </p>
+
+                <ul>
+                    <li>
+                        <b>server</b> : The message queue server that will be used to store jobs<br/>
+                        <p>
+                            Use this object to store your RabbitMQ connection settings.
+                            Please note that a Stomp Gateway and Management port and scheme
+                            are required.<br/>
+                            On RabbitMQ 2.8, default management port is 55672 whereas
+                            version 3.0 and higher now listens on 15672.
+                        </p>
+                    </li>
+                    <li>
+                        <b>redis-server</b> : The Redis server that stores jobs for statistical purposes<br/>
+                        <p>
+                            Set the redis server configuration here.
+                        </p>
+                    </li>
+                    <li>
+                        <b>session-server</b> : The session server, required to share session between webserver and websocket servers<br/>
+                        <p>
+                            You can only use Memcached session handlers for the moment. Both
+                            <code>memcache</code> and <code>memcached</code> types are correct.
+                            This allows sessions to be shared between the web server and the
+                            socket server.
+                        </p>
+                    </li>
+                    <li>
+                        <b>websocket-server</b> : The websockets server configuration for web monitoring<br/>
+                        <p>
+                        </p>
+                    </li>
+                    <li>
+                        <b>listeners</b> : An array of listeners that will handle incoming job requests<br/>
+                        <p>
+                        </p>
+                    </li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Upgrade</h3>
+                <p>
+                    There are two ways to upgrade Gloubster Server :
+                    <ul>
+                        <li>
+                            If you have kept the .git file at root, just upgrade files and dependencies :
+                            <code>
+                                romain@computer : ~ $ git pull origin master
+                                romain@computer : ~ $ composer install
+                            </code>
+                        </li>
+                        <li>
+                            Otherwise, re-install it and use the configuration you used in the previous install.
+                        </li>
+                    </ul>
+                </p>
+            </section>
+        </div>
+      </div><!--/row-->
+
+      <hr>
+
+      <footer>
+        <p>&copy; Alchemy 2012</p>
+      </footer>
+
+    </div><!--/.fluid-container-->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="../bootstrap/js/bootstrap.js"></script>
+  </body>
+</html>
